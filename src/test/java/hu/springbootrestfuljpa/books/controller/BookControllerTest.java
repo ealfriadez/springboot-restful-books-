@@ -95,6 +95,14 @@ public class BookControllerTest {
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
 	
+	@Test
+	void createBookExistsByIdTest() {		
+		
+		Mockito.when(bookRepository.existsById(BOOK.getId())).thenReturn(true);
 	
+		ResponseEntity<Object> response = controller.createBook(BOOK);
+			
+		assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+	}
 }
 
