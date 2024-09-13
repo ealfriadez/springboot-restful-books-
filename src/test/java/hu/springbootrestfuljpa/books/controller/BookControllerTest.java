@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import hu.springbootrestfuljpa.books.model.Book;
 import hu.springbootrestfuljpa.books.model.Review;
 import hu.springbootrestfuljpa.books.repository.BookRepository;
+import hu.springbootrestfuljpa.books.util.Utilidades;
 
 public class BookControllerTest {
 	
@@ -95,6 +96,20 @@ public class BookControllerTest {
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
 	
+	
+	@SuppressWarnings("static-access")
+	@Test
+	void createBookNotNullTest() {		
+		
+		Mockito.when(bookRepository.existsById(BOOK.getId())).thenReturn(true);
+	
+		boolean response = Utilidades.isIdNotNull(BOOK);
+			
+		assertNotNull(response);
+		//assertTrue(response);
+	}
+	
+	
 	@Test
 	void createBookExistsByIdTest() {		
 		
@@ -103,6 +118,26 @@ public class BookControllerTest {
 		ResponseEntity<Object> response = controller.createBook(BOOK);
 			
 		assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+	}
+	
+	@Test
+	void deleteBookNotFoundTest() {		
+		
+		Mockito.when(bookRepository.findById(ID)).thenReturn(OPTIONAL_BOOK_EMPTY);
+	
+		ResponseEntity<Object> response = controller.deleteBook(ID);
+			
+		assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+	}
+	
+	@Test
+	void deleteBookFoundTest() {		
+		
+		Mockito.when(bookRepository.findById(ID)).thenReturn(OPTIONAL_BOOK);
+		
+		ResponseEntity<Object> response = controller.deleteBook(ID);
+			
+		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
 }
 

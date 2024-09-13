@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hu.springbootrestfuljpa.books.model.Book;
 import hu.springbootrestfuljpa.books.repository.BookRepository;
+import hu.springbootrestfuljpa.books.util.Utilidades;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,6 +24,9 @@ public class BookController {
 
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private Utilidades utilidades;
 
 	@GetMapping(path = "/books")
 	public List<Book> retrieveAllBooks() {
@@ -39,9 +43,10 @@ public class BookController {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	@PostMapping("/books")
 	public ResponseEntity<Object> createBook(@RequestBody Book book) {
-		if (book.getId() != null && bookRepository.existsById(book.getId())) {
+		if (utilidades.isIdNotNull(book) && bookRepository.existsById(book.getId())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
 		return ResponseEntity.ok(bookRepository.save(book));
@@ -57,5 +62,4 @@ public class BookController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
 }
