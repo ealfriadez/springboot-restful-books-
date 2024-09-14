@@ -44,7 +44,7 @@ public class ReviewController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		
-		Book book = bookOptional.get();
+		Book book = bookOptional.get();		
 		review.setBook(book);
 
 		return ResponseEntity.ok(reviewRepository.save(review));

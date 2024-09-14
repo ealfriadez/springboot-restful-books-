@@ -45,7 +45,8 @@ class ReviewControllerTest {
 	@Mock
 	private BookRepository bookRepository;
 	
-	@Autowired
+	
+	@Mock
 	private ReviewRepository reviewRepository;
 	
 	@InjectMocks
@@ -103,13 +104,9 @@ class ReviewControllerTest {
 	@Test
 	void testIsPresentCreateReview() {
 		
-		Mockito.when(bookRepository.findById(ID)).thenReturn(OPTIONAL_BOOK);
+		Mockito.when(bookRepository.findById(BOOK.getId())).thenReturn(OPTIONAL_BOOK);
 		
-		ResponseEntity<Object> response = controller.createReview(ID, REVIEW_1);		
-		
-		REVIEW_1.setBook(BOOK);		
-		
-		reviewRepository.save(REVIEW_1);
+		ResponseEntity<Object> response = controller.createReview(BOOK.getId(), REVIEW_2);			
 		
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
