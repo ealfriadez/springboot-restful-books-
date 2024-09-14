@@ -43,6 +43,7 @@ public class ReviewController {
 		if (!bookOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+		
 		Book book = bookOptional.get();
 		review.setBook(book);
 

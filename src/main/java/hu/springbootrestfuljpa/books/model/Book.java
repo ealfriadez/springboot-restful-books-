@@ -18,6 +18,13 @@ public class Book {
 	private Integer id;
 
 	private String author;
+	
+	private Integer release;
+
+	private String title;
+
+	@OneToMany(mappedBy = "book")
+	private List<Review> reviews;
 
 	public Integer getId() {
 		return id;
@@ -58,12 +65,4 @@ public class Book {
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-
-	private Integer release;
-
-	private String title;
-
-	@OneToMany(mappedBy = "book")
-	private List<Review> reviews;
-
 }
